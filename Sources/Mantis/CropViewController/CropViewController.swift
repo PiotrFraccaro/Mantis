@@ -232,7 +232,13 @@ public class CropViewController: UIViewController {
     }
     
     private func handleCancel() {
-        self.delegate?.cropViewControllerDidCancel(self, original: self.image)
+        let alertController = UIAlertController(title: "Przerwać operację?", message: "Czy chcesz przerwać edycję? Wszystkie niezapisane zmiany zostaną utracone.", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Anuluj", style: .cancel) { _ in }
+        let backAction = UIAlertAction(title: "Przerwij", style: .destructive) { _ in
+            self.delegate?.cropViewControllerDidCancel(self, original: self.image)
+        }
+        [cancelAction, backAction].forEach(alertController.addAction(_:))
+        present(alertController, animated: true)
     }
     
     private func resetRatioButton() {
