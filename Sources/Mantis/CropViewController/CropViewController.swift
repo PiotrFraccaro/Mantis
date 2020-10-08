@@ -295,6 +295,21 @@ public class CropViewController: UIViewController {
 
         self.delegate?.cropViewControllerDidCrop(self, cropped: image, transformation: cropResult.transformation)        
     }
+    
+    private func handleZoom(zoomValue: CGFloat) {
+        let transfromation = Transformation(
+            offset: cropView.scrollView.contentOffset,
+            rotation: cropView.forceFixedRatio ? cropView.viewModel.radians : cropView.viewModel.getTotalRadians(),
+            scale: zoomValue,
+            manualZoomed: true,
+            maskFrame: cropView.gridOverlayView.frame
+        )
+        
+        cropView.viewModel.setTouchImageStatus()
+        cropView.transform(byTransformInfo: transfromation)
+        cropView.viewModel.setBetweenOperationStatus()
+        cropView.makeSureImageContainsCropOverlay()
+    }
 }
 
 // Auto layout
@@ -358,6 +373,10 @@ extension CropViewController: CropViewDelegate {
     func cropViewDidBecomeUnResettable(_ cropView: CropView) {
         cropToolbar.handleCropViewDidBecomeUnResettable()
     }
+    
+    func scrollViewDidEndZooming(scale: CGFloat) {
+        cropToolbar.handleScrollViewDidEndZooming(scale: scale)
+    }
 }
 
 extension CropViewController: CropToolbarDelegate {
@@ -387,6 +406,10 @@ extension CropViewController: CropToolbarDelegate {
     
     public func didSelectRatio(ratio: Double) {
         setFixedRatio(ratio)
+    }
+    
+    public func didChangeZoomValue(_ newValue: CGFloat) {
+        handleZoom(zoomValue: newValue)
     }
 }
 

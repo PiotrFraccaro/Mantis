@@ -7,7 +7,7 @@
 
 import UIKit
 
-public protocol CropToolbarDelegate {
+public protocol CropToolbarDelegate: AnyObject {
     func didSelectCancel();
     func didSelectCrop();
     func didSelectCounterClockwiseRotate();
@@ -15,6 +15,7 @@ public protocol CropToolbarDelegate {
     func didSelectReset();
     func didSelectSetRatio();
     func didSelectRatio(ratio: Double);
+    func didChangeZoomValue(_ newValue: CGFloat);
 }
 
 public protocol CropToolbarProtocol: UIView {    
@@ -38,6 +39,7 @@ public protocol CropToolbarProtocol: UIView {
         
     func handleCropViewDidBecomeResettable()
     func handleCropViewDidBecomeUnResettable()
+    func handleScrollViewDidEndZooming(scale: CGFloat)
 }
 
 public extension CropToolbarProtocol {

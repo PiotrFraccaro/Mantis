@@ -27,6 +27,7 @@ import UIKit
 protocol CropViewDelegate: class {
     func cropViewDidBecomeResettable(_ cropView: CropView)
     func cropViewDidBecomeUnResettable(_ cropView: CropView)
+    func scrollViewDidEndZooming(scale: CGFloat)
 }
 
 let cropViewMinimumBoxSize: CGFloat = 42

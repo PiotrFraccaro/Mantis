@@ -192,6 +192,10 @@ public class CropToolbar: UIView, CropToolbarProtocol {
         resetButton?.isHidden = true
     }
     
+    public func handleScrollViewDidEndZooming(scale: CGFloat) {
+        
+    }
+    
     public func initConstraints(heightForVerticalOrientation: CGFloat, widthForHorizonOrientation: CGFloat) {
         
     }
