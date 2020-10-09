@@ -715,6 +715,7 @@ extension CropView {
     }
     
     func transform(byTransformInfo transformation: Transformation) {
+        let rotationDelta = viewModel.radians - transformation.rotation
         viewModel.setRotatingStatus(by: CGAngle(radians:transformation.rotation))
         manualZoomed = transformation.manualZoomed
         scrollView.zoomScale = transformation.scale
@@ -725,7 +726,7 @@ extension CropView {
             viewModel.cropBoxFrame = transformation.maskFrame
         }
 
-        rotationDial?.rotateDialPlate(by: CGAngle(radians: viewModel.radians))
+        rotationDial?.rotateDialPlate(by: CGAngle(radians: -rotationDelta))
         adaptAngleDashboardToCropBox()
     }
 }

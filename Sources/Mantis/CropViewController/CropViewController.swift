@@ -281,15 +281,29 @@ public class CropViewController: UIViewController {
         ratioSelector?.update(fixedRatioManager: getFixedRatioManager())
     }
     
-    private func handleRotate(rotateAngle: CGFloat) {
+    private func handleRotate(rotateRadians: CGFloat) {
+        var radians = cropView.forceFixedRatio ? cropView.viewModel.radians + rotateRadians : cropView.viewModel.getTotalRadians() + rotateRadians
+        if radians > .pi {
+            radians = -.pi + -.pi + radians
+        } else if radians < -.pi {
+            radians = .pi - -.pi + radians
+        }
         if !disableRotation {
             disableRotation = true
-            cropView.RotateBy90(rotateAngle: rotateAngle) { [weak self] in
-                self?.disableRotation = false
-                self?.ratioSelector?.update(fixedRatioManager: self?.getFixedRatioManager())
-            }
+            let transfromation = Transformation(
+                offset: cropView.scrollView.contentOffset,
+                rotation: radians,
+                scale: cropView.scrollView.zoomScale,
+                manualZoomed: true,
+                maskFrame: cropView.gridOverlayView.frame
+            )
+            
+            cropView.viewModel.setTouchImageStatus()
+            cropView.transform(byTransformInfo: transfromation)
+            cropView.viewModel.setBetweenOperationStatus()
+            cropView.makeSureImageContainsCropOverlay()
+            disableRotation = false
         }
-        
     }
     
     private func handleCrop() {
@@ -395,11 +409,11 @@ extension CropViewController: CropToolbarDelegate {
     }
     
     public func didSelectCounterClockwiseRotate() {
-        handleRotate(rotateAngle: -CGFloat.pi / 2)
+        handleRotate(rotateRadians: -CGFloat.pi / 2)
     }
 
     public func didSelectClockwiseRotate() {
-        handleRotate(rotateAngle: CGFloat.pi / 2)
+        handleRotate(rotateRadians: CGFloat.pi / 2)
     }
     
     public func didSelectReset() {
