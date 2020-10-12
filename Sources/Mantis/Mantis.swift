@@ -115,7 +115,12 @@ public struct Config {
     public var ratioOptions: RatioOptions = .all
     public var presetFixedRatioType: PresetFixedRatioType = .canUseMultiplePresetFixedRatio
     public var showRotationDial = true
-
+    public var shouldPresentCancelAlert: Bool = false
+    public var cancelAlertTitle: String = ""
+    public var cancelAlertMessage: String = ""
+    public var stopCancelActionTitle: String = ""
+    public var confirmCancelActionTitle: String = ""
+    
     public var cropToolbarConfig = CropToolbarConfig()
     
     var customRatios: [(width: Int, height: Int)] = []

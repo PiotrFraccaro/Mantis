@@ -232,9 +232,14 @@ public class CropViewController: UIViewController {
     }
     
     private func handleCancel() {
-        let alertController = UIAlertController(title: "Przerwać operację?", message: "Czy chcesz przerwać edycję? Wszystkie niezapisane zmiany zostaną utracone.", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "Anuluj", style: .cancel) { _ in }
-        let backAction = UIAlertAction(title: "Przerwij", style: .destructive) { _ in
+        guard config.shouldPresentCancelAlert else {
+            return
+        }
+        let alertController = UIAlertController(title: config.cancelAlertTitle,
+                                                message: config.cancelAlertMessage,
+                                                preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: config.stopCancelActionTitle, style: .cancel) { _ in }
+        let backAction = UIAlertAction(title: config.confirmCancelActionTitle, style: .destructive) { _ in
             self.delegate?.cropViewControllerDidCancel(self, original: self.image)
         }
         [cancelAction, backAction].forEach(alertController.addAction(_:))
