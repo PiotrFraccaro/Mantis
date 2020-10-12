@@ -243,7 +243,7 @@ class CropView: UIView {
         var config = DialConfig.Config()
         config.backgroundColor = .clear
         config.angleShowLimitType = .limit(angle: CGAngle(degrees: 40))
-        config.rotationLimitType = .limit(angle: CGAngle(degrees: 45))
+        config.rotationLimitType = .limit(angle: CGAngle(degrees: 180))
         config.numberShowSpan = 1
         
         let boardLength = min(bounds.width, bounds.height) * 0.6
